@@ -6,7 +6,7 @@ Modified for BBIO Author Justin Cooper
 Modified for 4.1+ kernels by Grizmio
 Unified for 3.8 and 4.1+ kernels by Peter Lawler <relwalretep@gmail.com>
 
-This file incorporates work covered by the following copyright and 
+This file incorporates work covered by the following copyright and
 permission notice, all modified code adopts the original license:
 
 Copyright (c) 2013 Ben Croston
@@ -47,9 +47,9 @@ SOFTWARE.
 int setup_error = 0;
 int module_setup = 0;
 
-typedef struct pins_t { 
-    const char *name; 
-    const char *key; 
+typedef struct pins_t {
+    const char *name;
+    const char *key;
     int gpio;
     int pwm_mux_mode;
     int ain;
@@ -153,13 +153,47 @@ pins_t table[] = {
   { "DGND", "P9_44", 0, -1, -1},
   { "DGND", "P9_45", 0, -1, -1},
   { "DGND", "P9_46", 0, -1, -1},
+  { "PWR_FAIL", "D12_1", 496, -1, -1},
+  { "BATT_STAT", "D12_2", 497, -1, -1},
+  { "GPIO_RTC", "D12_3", 498, -1, -1},
+  { "24V_ES", "D12_4", 499, -1, -1},
+  { "CHRG_STAT", "D12_5", 500, -1, -1},
+  { "HIZ_DET", "D12_6", 501, -1, -1},
+  { "D12_7", "D12_7", 502, -1, -1},
+  { "D12_8", "D12_8", 503, -1, -1},
+
+  { "EXPIO0_1", "D2_1", 480, -1, -1},
+  { "EXPIO0_2", "D2_2", 481, -1, -1},
+  { "EXPIO0_3", "D2_3", 482, -1, -1},
+  { "EXPIO0_4", "D2_4", 483, -1, -1},
+  { "EXPIO0_5", "D2_5", 484, -1, -1},
+  { "EXPIO0_6", "D2_6", 485, -1, -1},
+  { "EXPIO0_7", "D2_7", 486, -1, -1},
+  { "EXPIO0_8", "D2_8", 487, -1, -1},
+  { "GPIO_J10", "D2_9", 488, -1, -1},
+  { "ETH_LED", "D2_10", 489, -1, -1},
+  { "SPI2_CS", "D2_11", 490, -1, -1},
+  { "CS2_1", "D2_12", 491, -1, -1},
+  { "CS2_2", "D2_13", 492, -1, -1},
+  { "NOT_BUZZ_EN", "D2_14", 493, -1, -1},
+  { "24V_ES_ENABLE", "D2_15", 494, -1, -1},
+  { "D2_16", "D2_16", 495, -1, -1},
+
+  { "MUX_1", "D8_1", 504, -1, -1},
+  { "MUX_2", "D8_2", 505, -1, -1},
+  { "MUX_3", "D8_3", 506, -1, -1},
+  { "MUX_4", "D8_4", 507, -1, -1},
+  { "MUX_5", "D8_5", 508, -1, -1},
+  { "MUX_6", "D8_6", 509, -1, -1},
+  { "MUX_7", "D8_7", 510, -1, -1},
+  { "MUX_8", "D8_8", 511, -1, -1},
     { NULL, NULL, 0 }
 };
 
-typedef struct uart_t { 
-    const char *name; 
+typedef struct uart_t {
+    const char *name;
     const char *path;
-    const char *dt; 
+    const char *dt;
     const char *rx;
     const char *tx;
 } uart_t;
@@ -269,7 +303,7 @@ BBIO_err copy_pwm_key_by_key(const char *input_key, char *key)
 
             strncpy(key, p->key, 7);
             key[7] = '\0';
-            return BBIO_OK;                
+            return BBIO_OK;
         }
     }
     return BBIO_INVARG;
@@ -295,7 +329,7 @@ BBIO_err get_pwm_key_by_name(const char *name, char *key)
 BBIO_err get_gpio_number(const char *key, unsigned int *gpio)
 {
     *gpio = lookup_gpio_by_key(key);
-    
+
     if (!*gpio) {
         *gpio = lookup_gpio_by_name(key);
     }
@@ -339,7 +373,7 @@ BBIO_err get_pwm_key(const char *input, char *key)
 BBIO_err get_adc_ain(const char *key, unsigned int *ain)
 {
     *ain = lookup_ain_by_key(key);
-    
+
     if (*ain == -1) {
         *ain = lookup_ain_by_name(key);
 
@@ -405,7 +439,7 @@ int get_spi_bus_path_number(unsigned int spi)
   } else {
       snprintf(path, sizeof(path), "%s/481a0000.spi/spi_master/spi1", ocp_dir);
   }
-  
+
   DIR* dir = opendir(path);
   if (dir) {
       closedir(dir);
