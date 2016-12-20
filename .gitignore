@@ -32,3 +32,5 @@ nosetests.xml
 # Annoying MacOSX files.
 .DS_Store
 ._.DS_Store
+
+myvenv/
