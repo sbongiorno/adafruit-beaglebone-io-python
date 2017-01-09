@@ -5,7 +5,7 @@ publish: clean
 	python setup.py sdist upload
 
 clean:
-	rm -rf Adafruit_BBIO.* build dist
+	rm -rf Adafruit_BBIO_ATRA.* build dist
 	rm -f *.pyo
 	rm -f *.egg
 	rm -f overlays/*.pyo overlays/*.pyc
@@ -29,4 +29,3 @@ build3:
 
 install3: build3
 	python3 setup.py install --force
-
